@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Bronco · Tradición Sonorense desde 1968 — Cd. Obregón</title>
+<meta name="description" content="El Bronco — restaurante bar de cortes y tradición sonorense en Ciudad Obregón desde 1968. Cabrería, panela fundida, aguachile y los mejores cortes de la región.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Oswald:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#15100d;       /* deep leather black */
+    --night2:#1f1713;      /* lighter leather */
+    --wood:#2a1e18;        /* smoky wood */
+    --wine:#7a1f25;        /* oxblood / wine */
+    --wine2:#a8323a;       /* brighter wine */
+    --brass:#c9962f;       /* brass */
+    --brass2:#e3b85a;      /* light brass */
+    --gold:#f0d28a;        /* warm gold highlight */
+    --cream:#f3ead9;       /* warm cream text */
+    --cream-dim:#b6a890;   /* dimmed cream */
+    --rule:rgba(243,234,217,.10);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--night);color:var(--cream);overflow-x:hidden;line-height:1.6}
+  #dust{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+  .layer{position:relative;z-index:1}
+
+  h1,h2,h3,.display{font-family:'Cinzel',serif;letter-spacing:.02em}
+
+  /* ---------- NAV ---------- */
+  nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:18px 6vw;background:linear-gradient(180deg,rgba(21,16,13,.94) 0%,rgba(21,16,13,.5) 70%,transparent 100%);backdrop-filter:blur(6px);transition:padding .3s ease,background .3s ease}
+  nav.shrink{padding:12px 6vw;background:rgba(21,16,13,.97)}
+  .brand{font-family:'Cinzel',serif;font-weight:700;font-size:1.3rem;color:var(--cream);text-decoration:none;letter-spacing:.08em;display:flex;align-items:center;gap:.5ch}
+  .brand .dot{color:var(--brass)}
+  .nav-links{display:flex;align-items:center;gap:30px}
+  .nav-links a{color:var(--cream-dim);text-decoration:none;font-family:'Oswald',sans-serif;font-weight:500;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;transition:color .25s}
+  .nav-links a:hover{color:var(--brass2)}
+  .lang{display:flex;border:1px solid var(--rule);border-radius:40px;overflow:hidden}
+  .lang button{background:transparent;color:var(--cream-dim);border:none;padding:6px 13px;font-family:'Oswald',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.1em;cursor:pointer;transition:all .25s}
+  .lang button.on{background:var(--brass);color:#1a1109}
+  .nav-cta{display:inline-block;background:var(--wine);color:var(--cream);padding:9px 18px;border-radius:40px;font-family:'Oswald',sans-serif;font-weight:600;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:transform .2s,box-shadow .2s;border:1px solid var(--wine2)}
+  .nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(168,50,58,.4)}
+  .burger{display:none;background:none;border:none;color:var(--cream);font-size:1.6rem;cursor:pointer}
+
+  /* ---------- HERO ---------- */
+  header.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:120px 6vw 80px;position:relative}
+  .hero-glow{position:absolute;bottom:-10%;left:50%;transform:translateX(-50%);width:120vw;height:60vh;background:radial-gradient(ellipse at center,rgba(201,150,47,.16) 0%,rgba(122,31,37,.10) 40%,transparent 72%);pointer-events:none;z-index:0}
+  .eyebrow{font-family:'Oswald',sans-serif;font-weight:500;letter-spacing:.4em;font-size:.8rem;color:var(--brass2);text-transform:uppercase;margin-bottom:22px}
+
+  /* logo lockup */
+  .logo-lockup{display:flex;flex-direction:column;align-items:center;gap:0}
+  #coin3d{width:min(420px,80vw);height:min(420px,80vw);display:block;cursor:grab;margin-bottom:-6px}
+  #coin3d.dragging{cursor:grabbing}
+  .coin-fallback{display:none}
+  .logo-name{font-family:'Cinzel',serif;font-weight:700;font-size:clamp(3.4rem,13vw,9rem);line-height:.9;letter-spacing:.04em;
+    background:linear-gradient(180deg,#fff6e2 0%,var(--gold) 48%,var(--brass) 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--gold);
+    filter:drop-shadow(0 4px 30px rgba(201,150,47,.28))}
+  .logo-slogan{font-family:'Oswald',sans-serif;font-style:italic;font-weight:400;letter-spacing:.22em;text-transform:uppercase;font-size:clamp(.74rem,2vw,.98rem);color:var(--brass2);margin-top:18px;position:relative}
+  .logo-slogan::before,.logo-slogan::after{content:"";position:absolute;top:50%;width:clamp(20px,6vw,52px);height:1px;background:linear-gradient(90deg,transparent,var(--brass));opacity:.6}
+  .logo-slogan::before{right:calc(100% + 16px);transform:scaleX(-1)}
+  .logo-slogan::after{left:calc(100% + 16px)}
+
+  .hero .sub{max-width:600px;margin:26px auto 0;font-size:clamp(1rem,2.4vw,1.18rem);color:var(--cream-dim);font-weight:300}
+  .hero-meta{display:flex;gap:28px;flex-wrap:wrap;justify-content:center;margin-top:34px;align-items:center}
+  .stars{font-family:'Oswald',sans-serif;font-weight:600;color:var(--gold);letter-spacing:.05em;display:flex;align-items:center;gap:8px}
+  .stars b{font-size:1.15rem}
+  .stars span{color:var(--cream-dim);font-weight:400;font-size:.82rem}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:40px}
+  .btn-pri{background:var(--wine);color:var(--cream);padding:15px 34px;border-radius:46px;font-family:'Oswald',sans-serif;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;font-size:.92rem;transition:transform .2s,box-shadow .2s;border:1px solid var(--wine2)}
+  .btn-pri:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(168,50,58,.45)}
+  .btn-sec{border:1px solid var(--rule);color:var(--cream);padding:15px 30px;border-radius:46px;font-family:'Oswald',sans-serif;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;font-size:.92rem;transition:border-color .25s,color .25s}
+  .btn-sec:hover{border-color:var(--brass);color:var(--brass2)}
+
+  .marquee{overflow:hidden;white-space:nowrap;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);background:rgba(201,150,47,.05);padding:14px 0}
+  .marquee-track{display:inline-block;animation:scroll 30s linear infinite}
+  .marquee-track span{font-family:'Oswald',sans-serif;font-weight:500;letter-spacing:.18em;text-transform:uppercase;font-size:.92rem;color:var(--cream);margin:0 26px}
+  .marquee-track span i{color:var(--brass);font-style:normal}
+  @keyframes scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+  section{padding:100px 6vw;position:relative}
+  .sec-head{text-align:center;margin-bottom:58px}
+  .sec-head .eyebrow{margin-bottom:14px}
+  .sec-head h2{font-family:'Cinzel',serif;font-weight:700;font-size:clamp(2rem,5.5vw,3.6rem);color:var(--cream);line-height:1.05}
+  .sec-head h2 .em{color:var(--brass2)}
+
+  .story{background:linear-gradient(180deg,var(--night) 0%,var(--night2) 100%)}
+  .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;max-width:1100px;margin:0 auto;align-items:center}
+  .story-grid p{font-size:1.06rem;color:var(--cream-dim);font-weight:300;margin-bottom:18px}
+  .story-grid p b{color:var(--cream);font-weight:600}
+  .story-card{background:var(--wood);border:1px solid var(--rule);border-radius:18px;padding:40px;position:relative;overflow:hidden}
+  .story-card::before{content:"";position:absolute;top:-40%;right:-20%;width:300px;height:300px;background:radial-gradient(circle,rgba(201,150,47,.16),transparent 70%)}
+  .story-card .big{font-family:'Cinzel',serif;font-weight:700;font-size:3.2rem;color:var(--brass);line-height:1}
+  .story-card .lbl{font-family:'Oswald',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--cream-dim);font-size:.78rem;margin-top:6px;margin-bottom:26px}
+  .story-stats{display:grid;grid-template-columns:1fr 1fr;gap:24px;position:relative}
+  .story-stats .num{font-family:'Cinzel',serif;font-weight:700;font-size:1.7rem;color:var(--cream)}
+  .story-stats .num span{color:var(--brass)}
+  .story-stats .cap{font-size:.8rem;color:var(--cream-dim);letter-spacing:.04em}
+
+  .menu{background:var(--night)}
+  .menu-tabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:48px}
+  .menu-tabs button{background:transparent;border:1px solid var(--rule);color:var(--cream-dim);padding:11px 22px;border-radius:40px;font-family:'Oswald',sans-serif;font-weight:500;letter-spacing:.1em;text-transform:uppercase;font-size:.8rem;cursor:pointer;transition:all .25s}
+  .menu-tabs button.on,.menu-tabs button:hover{background:var(--wine);border-color:var(--wine2);color:var(--cream)}
+  .menu-panel{max-width:820px;margin:0 auto;display:none}
+  .menu-panel.on{display:block;animation:fade .5s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .dish{display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:22px 0;border-bottom:1px solid var(--rule)}
+  .dish-info{flex:1}
+  .dish-name{font-family:'Oswald',sans-serif;font-weight:600;font-size:1.16rem;color:var(--cream);letter-spacing:.02em;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .dish-name .fav{font-family:'Inter';font-size:.62rem;font-weight:600;letter-spacing:.08em;background:rgba(201,150,47,.16);color:var(--brass2);padding:3px 9px;border-radius:20px;text-transform:uppercase}
+  .dish-desc{font-size:.94rem;color:var(--cream-dim);font-weight:300;margin-top:5px}
+  .dish-price{font-family:'Oswald',sans-serif;font-weight:600;font-size:1.05rem;color:var(--gold);white-space:nowrap;opacity:.8}
+  .menu-note{text-align:center;margin-top:40px;font-size:.86rem;color:var(--cream-dim);font-style:italic}
+
+  .visit{background:linear-gradient(180deg,var(--night2) 0%,var(--night) 100%)}
+  .visit-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;max-width:1100px;margin:0 auto}
+  .visit-card{background:var(--wood);border:1px solid var(--rule);border-radius:18px;padding:38px}
+  .visit-card h3{font-family:'Oswald',sans-serif;font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:1rem;color:var(--brass2);margin-bottom:22px}
+  .info-row{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--rule);align-items:flex-start}
+  .info-row:last-child{border-bottom:none}
+  .info-row .ico{font-size:1.1rem;flex-shrink:0;width:24px;text-align:center}
+  .info-row .txt{font-size:.96rem;color:var(--cream)}
+  .info-row .txt a{color:var(--brass2);text-decoration:none}
+  .info-row .txt small{display:block;color:var(--cream-dim);font-size:.82rem;margin-top:2px}
+  .hours-row{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--rule);font-size:.96rem}
+  .hours-row:last-child{border-bottom:none}
+  .hours-row .day{color:var(--cream-dim)}
+  .hours-row .hr{color:var(--cream);font-family:'Oswald',sans-serif;letter-spacing:.03em}
+  .map-btn{display:inline-block;margin-top:18px;background:var(--wine);color:var(--cream);padding:13px 26px;border-radius:40px;font-family:'Oswald',sans-serif;font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:.84rem;text-decoration:none;transition:transform .2s;border:1px solid var(--wine2)}
+  .map-btn:hover{transform:translateY(-2px)}
+
+  footer{background:var(--night);border-top:1px solid var(--rule);padding:60px 6vw 40px;text-align:center}
+  .foot-brand{font-family:'Cinzel',serif;font-weight:700;font-size:2rem;color:var(--cream);letter-spacing:.06em}
+  .foot-brand .dot{color:var(--brass)}
+  .foot-tag{color:var(--cream-dim);font-weight:300;margin-top:10px;font-size:.95rem}
+  .foot-links{display:flex;gap:26px;justify-content:center;margin:28px 0;flex-wrap:wrap}
+  .foot-links a{color:var(--cream-dim);text-decoration:none;font-family:'Oswald',sans-serif;letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;transition:color .25s}
+  .foot-links a:hover{color:var(--brass2)}
+  .foot-fine{color:var(--cream-dim);font-size:.78rem;opacity:.6}
+
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+  .reveal.in{opacity:1;transform:none}
+  .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}
+
+  /* ---- HL-Media-style breathing spotlight ---- */
+  .spotlight{position:fixed;left:50%;top:32%;width:130vw;height:130vh;transform:translate(-50%,-50%);z-index:0;pointer-events:none;
+    background:radial-gradient(ellipse at center,rgba(201,150,47,.16) 0%,rgba(122,31,37,.05) 30%,transparent 60%);
+    animation:spotBreathe 13s ease-in-out infinite;mix-blend-mode:screen}
+  @keyframes spotBreathe{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.8}50%{transform:translate(-47%,-44%) scale(1.14);opacity:1}}
+
+  /* ---- section number tag ---- */
+  .sec-num{display:block;font-family:'Oswald',sans-serif;font-weight:500;letter-spacing:.34em;font-size:.7rem;color:var(--brass);opacity:.65;margin-bottom:12px;text-transform:uppercase}
+  .sec-num b{color:var(--brass2);font-weight:600}
+  .blink{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--brass2);margin-right:7px;vertical-align:middle;animation:tickBlink 1.8s steps(1) infinite}
+  @keyframes tickBlink{0%,60%{opacity:1}61%,100%{opacity:.15}}
+
+  /* ---- scroll-driven word highlight (HL Media signature) ---- */
+  .wordstack{padding:110px 6vw;max-width:1200px;margin:0 auto;background:var(--night)}
+  .ws-list{margin-top:30px}
+  .ws-word{font-family:'Cinzel',serif;font-weight:700;font-size:clamp(1.7rem,6.2vw,4.4rem);line-height:1.18;letter-spacing:.01em;
+    color:rgba(243,234,217,.16);transition:color .45s ease,transform .45s ease,opacity .45s ease;cursor:default}
+  .ws-word .gl{font-family:'Oswald',sans-serif;font-weight:300;font-size:.34em;letter-spacing:.06em;color:var(--cream-dim);opacity:0;transition:opacity .45s ease;margin-left:.6em;font-style:italic}
+  .ws-word.lit{color:var(--gold);transform:translateX(10px)}
+  .ws-word.lit .gl{opacity:.85}
+
+  @media(max-width:820px){
+    .nav-links{display:none}
+    .burger{display:block}
+    .story-grid,.visit-grid{grid-template-columns:1fr}
+    .nav-cta{display:none}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .marquee-track{animation:none}
+    #dust{display:none}
+    .reveal{transition:none}
+    html{scroll-behavior:auto}
+    .logo-horse .mane{animation:none}
+    .emblem .mane{animation:none}
+    .emblem .ring-rot{animation:none}
+    .spotlight{animation:none}
+    .blink{animation:none}
+    .ws-word{transition:none}
+  }
+</style>
+</head>
+<body>
+<canvas id="dust"></canvas>
+<div class="spotlight"></div>
+
+<nav id="nav">
+  <span class="brand-spacer" aria-hidden="true"></span>
+  <div class="nav-links">
+    <a href="#historia" data-es="Historia" data-en="Our Story">Historia</a>
+    <a href="#menu" data-es="Menú" data-en="Menu">Menú</a>
+    <a href="#visita" data-es="Visítanos" data-en="Visit">Visítanos</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:16px">
+    <div class="lang">
+      <button id="es" class="on" onclick="setLang('es')">ES</button>
+      <button id="en" onclick="setLang('en')">EN</button>
+    </div>
+    <a href="#visita" class="nav-cta" data-es="Reservar" data-en="Reserve">Reservar</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero-glow"></div>
+  <div class="layer">
+    <div class="logo-lockup">
+      <canvas id="coin3d" aria-label="Medalla El Bronco · Est. 1968"></canvas>
+      <noscript><img class="coin-fallback" src="assets/horse_gold.png" alt="El Bronco" style="display:block;width:200px;margin:0 auto"></noscript>
+      <h1 class="logo-name">EL BRONCO</h1>
+      <svg class="swash" viewBox="0 0 320 22" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs><linearGradient id="swashG" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#8a5a1c"/><stop offset="0.5" stop-color="#f0d28a"/><stop offset="1" stop-color="#8a5a1c"/>
+        </linearGradient></defs>
+        <path d="M14,11 Q88,3 150,11" fill="none" stroke="url(#swashG)" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M306,11 Q232,3 170,11" fill="none" stroke="url(#swashG)" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M160,4 l5,7 -5,7 -5,-7 z" fill="#f0d28a"/>
+        <path d="M8,11 q-5,-4 0,-8 M312,11 q5,-4 0,-8" fill="none" stroke="#c9962f" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="hero-cta">
+      <a href="#menu" class="btn-pri" data-es="Ver el menú" data-en="See the menu">Ver el menú</a>
+      <a href="#visita" class="btn-sec" data-es="Cómo llegar" data-en="Find us">Cómo llegar</a>
+    </div>
+  </div>
+</header>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span><i>✦</i> Cabrería</span><span><i>✦</i> Panela Fundida</span><span><i>✦</i> Aguachile</span><span><i>✦</i> Agujas de Diezmillo</span><span><i>✦</i> Tripitas Doradas</span><span><i>✦</i> Chile en Nogada</span><span><i>✦</i> Tradición Sonorense</span>
+    <span><i>✦</i> Cabrería</span><span><i>✦</i> Panela Fundida</span><span><i>✦</i> Aguachile</span><span><i>✦</i> Agujas de Diezmillo</span><span><i>✦</i> Tripitas Doradas</span><span><i>✦</i> Chile en Nogada</span><span><i>✦</i> Tradición Sonorense</span>
+  </div>
+</div>
+
+<section class="story" id="historia">
+  <div class="sec-head reveal">
+    <span class="sec-num"><span class="blink"></span>01 · <b data-es="Nuestra historia" data-en="Our story">Nuestra historia</b></span>
+    <p class="eyebrow" data-es="Nuestra historia" data-en="Our story">Nuestra historia</p>
+    <h2 data-es="MEDIO SIGLO DE <span class='em'>BRASA</span>" data-en="HALF A CENTURY OF <span class='em'>FIRE</span>">MEDIO SIGLO DE <span class="em">BRASA</span></h2>
+  </div>
+  <div class="story-grid">
+    <div class="reveal">
+      <p data-es="Desde <b>1968</b>, El Bronco es parada obligada en Ciudad Obregón. Comida regional, cortes de calidad y ese ambiente de cantina sonorense que no se finge: se hereda." data-en="Since <b>1968</b>, El Bronco has been a must-stop in Ciudad Obregón. Regional food, quality cuts, and that Sonoran cantina atmosphere that isn't faked — it's inherited."><b>Desde 1968</b>, El Bronco es parada obligada en Ciudad Obregón. Comida regional, cortes de calidad y ese ambiente de cantina sonorense que no se finge: se hereda.</p>
+      <p data-es="Nuestra especialidad es la <b>cabrería</b> — la carne más suave de la res, servida a tres cuartos para que no pierda jugo ni sabor. Acompáñala con la panela fundida, el guacamole y los frijoles de la casa." data-en="Our specialty is the <b>cabrería</b> — the most tender cut of beef, served three-quarters so it never loses its juice or flavor. Pair it with our melted panela, guacamole and house beans."><b>Nuestra especialidad es la cabrería</b> — la carne más suave de la res, servida a tres cuartos para que no pierda jugo ni sabor. Acompáñala con la panela fundida, el guacamole y los frijoles de la casa.</p>
+      <p data-es="Restaurante y bar. Comidas y cenas. Más de 40 años de experiencia en restaurante y banquetes." data-en="Restaurant and bar. Lunch and dinner. Over 40 years of experience in dining and catering.">Restaurante y bar. Comidas y cenas. Más de 40 años de experiencia en restaurante y banquetes.</p>
+    </div>
+    <div class="story-card reveal">
+      <div class="big">1968</div>
+      <div class="lbl" data-es="Tradición sonorense" data-en="Sonoran tradition">Tradición sonorense</div>
+      <div class="story-stats">
+        <div>
+          <div class="num"><span>4.7</span></div>
+          <div class="cap" data-es="Comida (Tripadvisor)" data-en="Food (Tripadvisor)">Comida (Tripadvisor)</div>
+        </div>
+        <div>
+          <div class="num">#<span>8</span></div>
+          <div class="cap" data-es="de 268 en Obregón" data-en="of 268 in Obregón">de 268 en Obregón</div>
+        </div>
+        <div>
+          <div class="num"><span>50+</span></div>
+          <div class="cap" data-es="Años de tradición" data-en="Years of tradition">Años de tradición</div>
+        </div>
+        <div>
+          <div class="num"><span>★</span></div>
+          <div class="cap" data-es="Cortes y bar" data-en="Cuts & bar">Cortes y bar</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wordstack" id="loque" aria-label="Lo que servimos">
+  <span class="sec-num"><span class="blink"></span>02 · <b data-es="La casa" data-en="The house">La casa</b></span>
+  <div class="ws-list">
+    <div class="ws-word" data-es="CORTES AL CARBÓN" data-en="CHARCOAL CUTS">CORTES AL CARBÓN<span class="gl" data-es="" data-en="Charcoal cuts"></span></div>
+    <div class="ws-word" data-es="CABRERÍA SUAVE" data-en="TENDER CABRERÍA">CABRERÍA SUAVE<span class="gl" data-es="la especialidad" data-en="the specialty">la especialidad</span></div>
+    <div class="ws-word" data-es="PANELA FUNDIDA" data-en="MELTED PANELA">PANELA FUNDIDA<span class="gl" data-es="de entrada" data-en="to start">de entrada</span></div>
+    <div class="ws-word" data-es="AGUACHILE FRESCO" data-en="FRESH AGUACHILE">AGUACHILE FRESCO<span class="gl" data-es="del mar" data-en="from the sea">del mar</span></div>
+    <div class="ws-word" data-es="TRADICIÓN SONORENSE" data-en="SONORAN TRADITION">TRADICIÓN SONORENSE<span class="gl" data-es="desde 1968" data-en="since 1968">desde 1968</span></div>
+  </div>
+</section>
+
+<section class="menu" id="menu">
+  <div class="sec-head reveal">
+    <span class="sec-num"><span class="blink"></span>03 · <b data-es="La carta" data-en="The menu">La carta</b></span>
+    <p class="eyebrow" data-es="La carta" data-en="The menu">La carta</p>
+    <h2 data-es="EL <span class='em'>MENÚ</span>" data-en="THE <span class='em'>MENU</span>">EL <span class="em">MENÚ</span></h2>
+  </div>
+  <div class="menu-tabs reveal">
+    <button class="on" onclick="showTab('entradas',this)" data-es="Entradas" data-en="Starters">Entradas</button>
+    <button onclick="showTab('cortes',this)" data-es="Cortes" data-en="Cuts">Cortes</button>
+    <button onclick="showTab('especialidades',this)" data-es="Especialidades" data-en="Specialties">Especialidades</button>
+    <button onclick="showTab('postres',this)" data-es="Postres" data-en="Desserts">Postres</button>
+    <button onclick="showTab('bar',this)" data-es="Bar" data-en="Bar">Bar</button>
+  </div>
+
+  <div class="menu-panel on" id="entradas">
+    <div class="dish">
+      <div class="dish-info">
+        <div class="dish-name">Panela fundida <span class="fav" data-es="Imperdible" data-en="Must-try">Imperdible</span></div>
+        <div class="dish-desc" data-es="Queso panela asado al carbón, dorado y fundido. La entrada de la casa." data-en="Charcoal-grilled panela cheese, golden and melted. The house starter.">Queso panela asado al carbón, dorado y fundido. La entrada de la casa.</div>
+      </div>
+      <div class="dish-price">—</div>
+    </div>
+    <div class="dish">
+      <div class="dish-info">
+        <div class="dish-name">Tripitas doradas</div>
+        <div class="dish-desc" data-es="Crujientes, para botanear de entrada. Súper recomendables." data-en="Crispy, perfect to share to start. Highly recommended.">Crujientes, para botanear de entrada. Súper recomendables.</div>
+      </div>
+      <div class="dish-price">—</div>
+    </div>
+    <div class="dish">
+      <div class="dish-info">
+        <div class="dish-name">Guacamole</div>
+        <div class="dish-desc" data-es="Recién hecho en la mesa, con totopos." data-en="Made fresh, with tortilla chips.">Recién hecho, con totopos.</div>
+      </div>
+      <div class="dish-price">—</div>
+    </div>
+    <div class="dish">
+      <div class="dish-info">
+        <div class="dish-name">Frijoles de la casa</div>
+        <div class="dish-desc" data-es="Los frijoles que acompañan toda buena carne sonorense." data-en="The beans that accompany every good Sonoran steak.">Los frijoles que acompañan toda buena carne sonorense.</div>
+      </div>
+      <div class="dish-price">—</div>
+    </div>
+    <div class="dish">
+      <div class="dish-info">
+        <div class="dish-name">Aguachile de camarón</div>
+        <div class="dish-desc" data-es="Camarón fresco en chile y limón. Muy elogiado." data-en="Fresh shrimp in chile and lime. A guest favorite.">Camarón fresco en chile y limón. Muy elogiado.</div>
+      </div>
+      <div class="dish-price">—</div>
+    </div>
+  </div>
+
+  <div class="menu-panel" id="cortes">
+    <div class="dish">
+      <div class="dish-info">
+        <div class="dish-name">Cabrería <span class="fav" data-es="Especialidad de la casa" data-en="House specialty">Especialidad de la casa</span></div>
+        <div class="dish-desc" data-es="La carne más suave de la res. Se recomienda a tres cuartos para no perder jugo ni sabor." data-en="The most tender cut of beef. Best served three-quarters so it keeps its juice and flavor.">La carne más suave de la res. Se recomienda a tres cuartos para no perder jugo ni sabor.</div>
+      </div>
+      <div class="dish-price">—</div>
+    </div>
+    <div class="dish">
+      <div class="dish-info">
+        <div class="dish-name">Agujas de diezmillo</div>
+        <div class="dish-desc" data-es="Corte jugoso y lleno de sabor, al carbón." data-en="A juicy, flavorful cut, charcoal-grilled.">Corte jugoso y lleno de sabor, al carbón.</div>
+      </div>
+      <div class="dish-price">—</div>
+    </div>
+    <div class="dish">
+      <div class="dish-info">
+        <div class="dish-name">Arrachera <span class="fav" data-es="Skirt steak" data-en="Skirt steak">Skirt steak</span></div>
+        <div class="dish-desc" data-es="Clásico corte sonorense, marinado y asado." data-en="Classic Sonoran cut, marinated and grilled.">Clásico corte sonorense, marinado y asado.</div>
+      </div>
+      <div class="dish-price">—</div>
+    </div>
+    <div class="dish">
+      <div class="dish-info">
+        <div class="dish-name">Filet mignon</div>
+        <div class="dish-desc" data-es="El corte más fino, al término que prefieras." data-en="The finest cut, cooked to your preference.">El corte más fino, al término que prefieras.</div>
+      </div>
+      <div class="dish-price">—</div>
+    </div>
+    <div class="dish">
+      <div class="dish-info">
+        <div class="dish-name">Costillas con páprika</div>
+        <div class="dish-desc" data-es="Costillas sazonadas y asadas lentamente." data-en="Seasoned ribs, slow-grilled.">Costillas sazonadas y asadas lentamente.</div>
+      </div>
+      <div class="dish-price">—</div>
+    </div>
+  </div>
+
+  <div class="menu-panel" id="especialidades">
+    <div class="dish">
+      <div class="dish-info">
+        <div class="dish-name">Chile en nogada <span class="fav" data-es="De temporada" data-en="Seasonal">De temporada</span></div>
+        <div class="dish-desc" data-es="Nuestro tradicional chile en nogada, en su temporada." data-en="Our traditional chile en nogada, in season.">Nuestro tradicional chile en nogada, en su temporada.</div>
+      </div>
+      <div class="dish-price">—</div>
+    </div>
+    <div class="dish">
+      <div class="dish-info">
+        <div class="dish-name">Cortes de cerdo</div>
+        <div class="dish-desc" data-es="Corte de cerdo de la casa, al carbón." data-en="House pork cut, charcoal-grilled.">Corte de cerdo de la casa, al carbón.</div>
+      </div>
+      <div class="dish-price">—</div>
+    </div>
+    <div class="dish">
+      <div class="dish-info">
+        <div class="dish-name">Cornish</div>
+        <div class="dish-desc" data-es="Gallina cornish a la parrilla." data-en="Grilled Cornish hen.">Gallina cornish a la parrilla.</div>
+      </div>
+      <div class="dish-price">—</div>
+    </div>
+  </div>
+
+  <div class="menu-panel" id="postres">
+    <div class="dish">
+      <div class="dish-info">
+        <div class="dish-name">Flan <span class="fav" data-es="Favorito" data-en="Favorite">Favorito</span></div>
+        <div class="dish-desc" data-es="El flan de la casa — delicioso, como siempre." data-en="The house flan — delicious, as always.">El flan de la casa — delicioso, como siempre.</div>
+      </div>
+      <div class="dish-price">—</div>
+    </div>
+  </div>
+
+  <div class="menu-panel" id="bar">
+    <div class="dish">
+      <div class="dish-info">
+        <div class="dish-name">Cervezas</div>
+        <div class="dish-desc" data-es="Nacionales bien frías." data-en="Ice-cold domestic beers.">Nacionales bien frías.</div>
+      </div>
+      <div class="dish-price">—</div>
+    </div>
+    <div class="dish">
+      <div class="dish-info">
+        <div class="dish-name">Vino de mesa</div>
+        <div class="dish-desc" data-es="Selección de vinos para acompañar los cortes." data-en="A wine selection to pair with the cuts.">Selección de vinos para acompañar los cortes.</div>
+      </div>
+      <div class="dish-price">—</div>
+    </div>
+    <div class="dish">
+      <div class="dish-info">
+        <div class="dish-name">Coctelería</div>
+        <div class="dish-desc" data-es="Del bar de El Bronco, tradición desde 1968." data-en="From El Bronco's bar, tradition since 1968.">Del bar de El Bronco, tradición desde 1968.</div>
+      </div>
+      <div class="dish-price">—</div>
+    </div>
+  </div>
+  <p class="menu-note" data-es="Carta basada en platillos destacados por nuestros comensales. Precios y disponibilidad sujetos a la carta vigente en el restaurante." data-en="Menu based on dishes highlighted by our guests. Prices and availability subject to the current in-restaurant menu.">Carta basada en platillos destacados por nuestros comensales. Precios y disponibilidad sujetos a la carta vigente en el restaurante.</p>
+</section>
+
+<section class="visit" id="visita">
+  <div class="sec-head reveal">
+    <span class="sec-num"><span class="blink"></span>04 · <b data-es="Te esperamos" data-en="Come by">Te esperamos</b></span>
+    <p class="eyebrow" data-es="Te esperamos" data-en="Come by">Te esperamos</p>
+    <h2 data-es="VISÍ<span class='em'>TANOS</span>" data-en="VISIT <span class='em'>US</span>">VISÍ<span class="em">TANOS</span></h2>
+  </div>
+  <div class="visit-grid">
+    <div class="visit-card reveal">
+      <h3 data-es="Dónde estamos" data-en="Where we are">Dónde estamos</h3>
+      <div class="info-row">
+        <div class="ico">📍</div>
+        <div class="txt">Calle Veracruz 236<br>entre No Reelección y Guerrero<br><small>Cd. Obregón, Sonora 85000</small></div>
+      </div>
+      <div class="info-row">
+        <div class="ico">📞</div>
+        <div class="txt"><a href="tel:+526****3790">644 413 3790</a><br><small data-es="Reservaciones y banquetes" data-en="Reservations & catering">Reservaciones y banquetes</small></div>
+      </div>
+      <div class="info-row">
+        <div class="ico">💳</div>
+        <div class="txt" data-es="Acepta tarjetas · Para llevar y servicio de mesa" data-en="Cards accepted · Takeout & table service">Acepta tarjetas · Para llevar y servicio de mesa</div>
+      </div>
+      <a class="map-btn" href="https://maps.google.com/?q=27.492851,-109.93604" target="_blank" rel="noopener" data-es="Abrir en Google Maps" data-en="Open in Google Maps">Abrir en Google Maps</a>
+    </div>
+    <div class="visit-card reveal">
+      <h3 data-es="Horario" data-en="Hours">Horario</h3>
+      <div class="hours-row"><span class="day" data-es="Lunes" data-en="Monday">Lunes</span><span class="hr">12:30 PM – 12:00 AM</span></div>
+      <div class="hours-row"><span class="day" data-es="Martes" data-en="Tuesday">Martes</span><span class="hr">12:30 PM – 12:00 AM</span></div>
+      <div class="hours-row"><span class="day" data-es="Miércoles" data-en="Wednesday">Miércoles</span><span class="hr">12:30 PM – 12:00 AM</span></div>
+      <div class="hours-row"><span class="day" data-es="Jueves" data-en="Thursday">Jueves</span><span class="hr">12:30 PM – 12:00 AM</span></div>
+      <div class="hours-row"><span class="day" data-es="Viernes" data-en="Friday">Viernes</span><span class="hr">12:30 PM – 12:00 AM</span></div>
+      <div class="hours-row"><span class="day" data-es="Sábado" data-en="Saturday">Sábado</span><span class="hr">12:30 PM – 12:00 AM</span></div>
+      <div class="hours-row"><span class="day" data-es="Domingo" data-en="Sunday">Domingo</span><span class="hr">12:30 PM – 10:00 PM</span></div>
+      <p class="menu-note" style="text-align:left;margin-top:20px" data-es="Comidas y cenas, todos los días." data-en="Lunch and dinner, every day.">Comidas y cenas, todos los días.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-brand">EL BRONCO<span class="dot">.</span></div>
+  <p class="foot-tag" data-es="Tradición Sonorense · Restaurante Bar · Cd. Obregón · Desde 1968" data-en="Sonoran Tradition · Restaurant Bar · Cd. Obregón · Since 1968">Tradición Sonorense · Restaurante Bar · Cd. Obregón · Desde 1968</p>
+  <div class="foot-links">
+    <a href="#historia" data-es="Historia" data-en="Story">Historia</a>
+    <a href="#menu" data-es="Menú" data-en="Menu">Menú</a>
+    <a href="#visita" data-es="Visítanos" data-en="Visit">Visítanos</a>
+    <a href="https://www.instagram.com/elbroncobregon/" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://www.facebook.com/p/El-Bronco-Restaurante-Ciudad-Obreg%C3%B3n-100084636170549/" target="_blank" rel="noopener">Facebook</a>
+  </div>
+  <p class="foot-fine">© 2026 El Bronco · Cd. Obregón, Sonora</p>
+</footer>
+
+<script>
+  function setLang(lang){
+    document.documentElement.lang=lang;
+    document.querySelectorAll('[data-es]').forEach(el=>{
+      const v=el.getAttribute('data-'+lang);
+      if(v!==null) el.innerHTML=v;
+    });
+    document.getElementById('es').classList.toggle('on',lang==='es');
+    document.getElementById('en').classList.toggle('on',lang==='en');
+    try{localStorage.setItem('bronco_lang',lang)}catch(e){}
+  }
+  (function(){
+    let saved='es';
+    try{saved=localStorage.getItem('bronco_lang')||'es'}catch(e){}
+    if(saved==='en') setLang('en');
+  })();
+
+  function showTab(id,btn){
+    document.querySelectorAll('.menu-panel').forEach(p=>p.classList.remove('on'));
+    document.getElementById(id).classList.add('on');
+    document.querySelectorAll('.menu-tabs button').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+  }
+
+  const nav=document.getElementById('nav');
+  addEventListener('scroll',()=>nav.classList.toggle('shrink',scrollY>40));
+
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  /* ---- Lenis momentum smooth-scroll (HL Media's signature feel) ---- */
+  (function(){
+    if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    const s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js';
+    s.onload=function(){
+      if(!window.Lenis) return;
+      const lenis=new Lenis({duration:1.15,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),smoothWheel:true});
+      function raf(t){lenis.raf(t);requestAnimationFrame(raf)} requestAnimationFrame(raf);
+      // anchor links go through Lenis
+      document.querySelectorAll('a[href^="#"]').forEach(a=>{
+        a.addEventListener('click',ev=>{const id=a.getAttribute('href');if(id.length>1){const el=document.querySelector(id);if(el){ev.preventDefault();lenis.scrollTo(el,{offset:-10})}}});
+      });
+    };
+    document.head.appendChild(s);
+  })();
+
+  /* ---- scroll-driven word highlight (the ECOSYSTEM-COVERAGE effect) ---- */
+  (function(){
+    const words=[...document.querySelectorAll('.ws-word')];
+    if(!words.length) return;
+    function update(){
+      const mid=innerHeight*0.5;let best=null,bestD=1e9;
+      for(const w of words){const r=w.getBoundingClientRect();const c=r.top+r.height/2;const d=Math.abs(c-mid);if(d<bestD){bestD=d;best=w}}
+      words.forEach(w=>w.classList.toggle('lit',w===best && bestD<innerHeight*0.32));
+    }
+    addEventListener('scroll',update,{passive:true});addEventListener('resize',update);update();
+  })();
+
+  /* ambient warm dust motes — Carlo's signature motion, brass-themed */
+  (function(){
+    if(matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    const c=document.getElementById('dust'),x=c.getContext('2d');
+    let w,h,parts=[];
+    function size(){w=c.width=innerWidth;h=c.height=innerHeight}
+    size();addEventListener('resize',size);
+    const COLORS=['201,150,47','227,184,90','240,210,138'];
+    function spawn(){
+      return{x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.5+.5,
+        vy:-(Math.random()*.22+.06),vx:(Math.random()-.5)*.18,
+        life:Math.random()*6.28,col:COLORS[Math.floor(Math.random()*COLORS.length)],
+        flick:Math.random()*.025+.006};
+    }
+    for(let i=0;i<60;i++)parts.push(spawn());
+    function tick(){
+      x.clearRect(0,0,w,h);
+      for(const p of parts){
+        p.y+=p.vy;p.x+=p.vx;p.life+=p.flick;
+        const a=.35+Math.sin(p.life)*.3;
+        x.beginPath();
+        x.fillStyle='rgba('+p.col+','+Math.max(0,a*.5)+')';
+        x.arc(p.x,p.y,p.r,0,6.283);
+        x.fill();
+        if(p.y<-10||p.x<-20||p.x>w+20){Object.assign(p,spawn());p.y=h+8}
+      }
+      requestAnimationFrame(tick);
+    }
+    tick();
+  })();
+
+  /* ====== REAL 3D: brass medallion with El Bronco's horse (Three.js) ====== */
+  (function(){
+    const canvas=document.getElementById('coin3d');
+    if(!canvas) return;
+    const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    const s=document.createElement('script');
+    s.src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+    s.onload=init;
+    s.onerror=()=>{ canvas.style.display='none'; const img=document.createElement('img'); img.src='assets/horse_gold.png'; img.alt='El Bronco'; img.style.cssText='display:block;width:210px;margin:0 auto;filter:drop-shadow(0 10px 30px rgba(201,150,47,.5))'; canvas.parentNode.appendChild(img); };
+    document.head.appendChild(s);
+
+    function init(){
+      const THREE=window.THREE; if(!THREE){return;}
+      const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
+      renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+      function size(){const w=canvas.clientWidth||440,h=canvas.clientHeight||440;renderer.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix();}
+      const scene=new THREE.Scene();
+      const cam=new THREE.PerspectiveCamera(38,1,0.1,100);cam.position.set(0,0,7);
+
+      // coin body: cylinder, beveled look via two radii
+      const grp=new THREE.Group();scene.add(grp);
+      const brass=new THREE.MeshStandardMaterial({color:0xc9962f,metalness:1,roughness:0.32});
+      const brassEdge=new THREE.MeshStandardMaterial({color:0x8a5a1c,metalness:1,roughness:0.45});
+      const body=new THREE.Mesh(new THREE.CylinderGeometry(2.3,2.3,0.34,96,1,false),[brassEdge,brass,brass]);
+      body.rotation.x=Math.PI/2;grp.add(body);
+      // raised rim ring
+      const rim=new THREE.Mesh(new THREE.TorusGeometry(2.18,0.12,24,96),new THREE.MeshStandardMaterial({color:0xe3b85a,metalness:1,roughness:0.25}));
+      rim.position.z=0.17;grp.add(rim);
+      const rimB=rim.clone();rimB.position.z=-0.17;grp.add(rimB);
+
+      // FULL EMBLEM minted onto the coin face (horse + Sonora + EST 1968 + RESTAURANTE BAR)
+      const horseMat=new THREE.MeshStandardMaterial({transparent:true,metalness:1,roughness:0.3,color:0xffffff});
+      const face=new THREE.Mesh(new THREE.PlaneGeometry(4.4,4.4),horseMat);
+      face.position.z=0.18;grp.add(face);
+      const faceB=face.clone();faceB.position.z=-0.18;faceB.rotation.y=Math.PI;grp.add(faceB);
+
+      function drawArcText(g,text,cx,cy,radius,centerAngle,dir,fontSize,color){
+        g.save();g.fillStyle=color;g.font='600 '+fontSize+'px Cinzel, Georgia, serif';g.textAlign='center';g.textBaseline='middle';
+        const widths=[...text].map(ch=>g.measureText(ch).width);
+        const total=widths.reduce((a,b)=>a+b,0);
+        let ang=centerAngle - dir*(total/radius)/2;
+        for(let i=0;i<text.length;i++){
+          const w=widths[i];const a=ang+dir*(w/2)/radius;
+          g.save();
+          g.translate(cx+radius*Math.cos(a),cy+radius*Math.sin(a));
+          g.rotate(a+(dir>0?Math.PI/2:-Math.PI/2));
+          g.fillText(text[i],0,0);g.restore();
+          ang+=dir*w/radius;
+        }
+        g.restore();
+      }
+      function makeBadge(horseImg){
+        const c=document.createElement('canvas');c.width=c.height=1024;const g=c.getContext('2d');
+        const cx=512,cy=512;
+        // dark leather field
+        g.beginPath();g.arc(cx,cy,478,0,7);g.fillStyle='#1b130e';g.fill();
+        // inner brass ring lines
+        g.beginPath();g.arc(cx,cy,458,0,7);g.lineWidth=7;g.strokeStyle='rgba(240,210,138,.6)';g.stroke();
+        g.beginPath();g.arc(cx,cy,300,0,7);g.lineWidth=2.5;g.strokeStyle='rgba(201,150,47,.35)';g.stroke();
+        // State of Sonora silhouette (backing motif)
+        g.save();g.translate(cx,cy-26);g.scale(7.4,7.4);
+        const pts=[[-34,-38],[-2,-36],[10,-40],[30,-31],[36,2],[26,22],[16,35],[-3,45],[-15,27],[-19,11],[-29,5],[-25,-14],[-37,-23]];
+        g.beginPath();pts.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1]));g.closePath();
+        g.fillStyle='rgba(201,150,47,.20)';g.fill();g.lineWidth=1.3;g.strokeStyle='rgba(227,184,90,.5)';g.stroke();
+        g.restore();
+        // horse, centered
+        if(horseImg){const hw=330,hh=hw*horseImg.height/horseImg.width;g.drawImage(horseImg,cx-hw/2,cy-hh/2-34,hw,hh);}
+        // curved EST · 1968 (top) and RESTAURANTE · BAR (bottom)
+        drawArcText(g,'E S T  ·  1 9 6 8',cx,cy,406,-Math.PI/2,1,60,'#f0d28a');
+        drawArcText(g,'R E S T A U R A N T E   ·   B A R',cx,cy,410,Math.PI/2,-1,44,'#e3b85a');
+        // little brass stars flanking
+        g.fillStyle='#e3b85a';[[-Math.PI,0],[0,0]].forEach(()=>{});
+        [Math.PI,0].forEach(a=>{g.beginPath();g.arc(cx+406*Math.cos(a),cy+406*Math.sin(a),6,0,7);g.fill();});
+        return c;
+      }
+      const horseImg=new Image();
+      horseImg.onload=function(){
+        (document.fonts?document.fonts.ready:Promise.resolve()).then(()=>{
+          const t=new THREE.CanvasTexture(makeBadge(horseImg));t.anisotropy=8;
+          horseMat.map=t;horseMat.needsUpdate=true;render();
+        });
+      };
+      horseImg.src='assets/horse_gold.png';
+
+      // lighting — studio brass
+      scene.add(new THREE.AmbientLight(0xffffff,0.45));
+      const key=new THREE.DirectionalLight(0xfff0d0,2.4);key.position.set(4,5,6);scene.add(key);
+      const rimL=new THREE.DirectionalLight(0xa8323a,1.3);rimL.position.set(-5,-2,3);scene.add(rimL);
+      const warm=new THREE.PointLight(0xff9836,1.1,30);warm.position.set(0,2,5);scene.add(warm);
+
+      size();addEventListener('resize',size);
+
+      // interaction: drag to spin + idle auto-rotate + cursor parallax
+      let targetY=0,targetX=0,curY=0,curX=0,vel=0.0045,dragging=false,lx=0,ly=0,auto=true;
+      canvas.addEventListener('pointerdown',e=>{dragging=true;auto=false;lx=e.clientX;ly=e.clientY;canvas.classList.add('dragging');canvas.setPointerCapture(e.pointerId);});
+      canvas.addEventListener('pointermove',e=>{
+        if(dragging){targetY+=(e.clientX-lx)*0.01;targetX+=(e.clientY-ly)*0.008;lx=e.clientX;ly=e.clientY;}
+      });
+      addEventListener('pointerup',()=>{dragging=false;canvas.classList.remove('dragging');setTimeout(()=>auto=true,2500);});
+      // subtle parallax from section mouse position
+      const sec=document.getElementById('top');
+      sec.addEventListener('mousemove',e=>{if(dragging)return;const r=sec.getBoundingClientRect();const nx=(e.clientX-r.left)/r.width-0.5;const ny=(e.clientY-r.top)/r.height-0.5;targetY=nx*0.6;targetX=ny*0.5;});
+
+      let visible=true;
+      const io=new IntersectionObserver(es=>{visible=es[0].isIntersecting;},{threshold:0.05});io.observe(sec);
+
+      const ROCK=0.38; // ~22deg amplitude
+      const t0=performance.now();
+      function render(){renderer.render(scene,cam);}
+      function loop(){
+        requestAnimationFrame(loop);
+        if(!visible)return;
+        if(auto&&!reduce){
+          const t=(performance.now()-t0)/1000;
+          targetY=Math.sin(t*0.55)*ROCK;   // gentle left-right rock, face stays forward
+          targetX=Math.sin(t*0.4)*0.05;     // tiny vertical bob
+        }
+        curY+=(targetY-curY)*0.06;curX+=(targetX-curX)*0.06;
+        grp.rotation.y=curY;grp.rotation.x=curX;
+        render();
+      }
+      loop();
+    }
+  })();
+</script>
+</body>
+</html>
